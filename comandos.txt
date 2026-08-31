@@ -1,0 +1,30 @@
+npm init -y 
+	cria package.json
+
+npm install -D typescript @types/node @types/express tsx 
+npm install express
+
+subir docker 
+	docker-compose up -d
+
+instalar o prisma 
+	npm install -D prisma
+instalar client prisma
+	npm install @prima/client
+executar prisma
+	npx prisma init
+
+editar informações do bd no prisma em .env	
+
+com o prisma, toda vez que for fazer alguma alteração no banco, será necessário criar uma nova migration
+	npx prisma migrate dev --name init
+
+para resetar o prisma 
+	npx prima migrate reset 
+	depois reexecuta o npx prisma migrate dev --name init 
+
+visualizar o prisma studio
+	npx prisma studio
+
+para semear o bando 
+	npx prisma db seed
