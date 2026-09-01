@@ -28,3 +28,6 @@ visualizar o prisma studio
 
 para semear o bando 
 	npx prisma db seed
+
+rodar o projeto 
+	npm run dev	

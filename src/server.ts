@@ -1,6 +1,16 @@
+import 'dotenv/config';
 import express, {type Request, type Response } from 'express';
+import { PrismaClient } from '@prisma/client';
+import { PrismaPg } from '@prisma/adapter-pg';
+import pg from 'pg';
+
+// Inicializa a conexão com o banco
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL! });
+const adapter = new PrismaPg(pool);
+const prisma = new PrismaClient({ adapter });
 
 const app = express();
+app.use(express.json()); // Permite que a API entenda JSON
 
 const PORT = 3001;
 
@@ -32,14 +42,21 @@ const mockProducts = [
     }
 ];
 
-app.get('/' , (req: Request, res: Response) => {
-    res.json({ message: 'Olá'});
+app.get('/' , async (req: Request, res: Response) => {
+    try {
+    const products = await prisma.product.findMany();
+    res.json(products); // Retorna os produtos do banco
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar produtos' });
+  }
 });
 
-app.get('/api/products' , (req: Request, res: Response) => {
-    console.log('Requisição para /api/products recebida.');
-    res.json(mockProducts);
-});
+
+// app.get('/api/products' , (req: Request, res: Response) => {
+//     console.log('Requisição para /api/products recebida.');
+//     res.json(mockProducts);
+// });
 
 app.listen(PORT, () => {
     console.log('servidor em http://localhost:${PORT}');
