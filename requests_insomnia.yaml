@@ -7,15 +7,51 @@ meta:
   modified: 1788741979841
   description: ""
 collection:
-  - url: https://localhost/3001
-    name: New Request
+  - url: http://localhost:3001/
+    name: GET /
     meta:
       id: req_23c96ffa287e4585bd9499adf2b756ed
       created: 1788742011759
-      modified: 1788742035806
+      modified: 1788828909393
       isPrivate: false
       description: ""
       sortKey: -1788742011759
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3001/products
+    name: GET /products
+    meta:
+      id: req_f9667023619a4a148ae6c4b7a6ca15a4
+      created: 1788828175536
+      modified: 1788829178274
+      isPrivate: false
+      description: ""
+      sortKey: -1788828175536
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3001/products/5
+    name: GET /products/:id
+    meta:
+      id: req_2222e24b1c6c437181b1073bac5efdcd
+      created: 1788828188694
+      modified: 1788829254955
+      isPrivate: false
+      description: ""
+      sortKey: -1788828188694
     method: GET
     settings:
       renderRequestBody: true

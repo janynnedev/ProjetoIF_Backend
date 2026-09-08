@@ -14,49 +14,43 @@ app.use(express.json()); // Permite que a API entenda JSON
 
 const PORT = 3001;
 
-// export interface ProductData {
-//     id: number;
-//     title: string;
-//     description: string;
-//     price: number;
-//     imageURL: string;
-//     isFeatured?: boolean;
-// }
+app.get('/', (req: Request, res: Response) => {
+  res.json({ status: 'ok' });
+});
 
-const mockProducts = [
-    {
-        id: 1,
-        title: "Notebook",
-        description: "Um notebook poderoso",
-        price: 4500.00,
-        imageURL: "/images/notebook.png",
-        isFeatured: true
-    },
-    {
-        id: 2,
-        title: "Mouse",
-        description: "Mouse com fio",
-        price: 30.00,
-        imageURL: "/images/mouse.png",
-        isFeatured: true
-    }
-];
-
-app.get('/' , async (req: Request, res: Response) => {
+app.get('/products' , async (req: Request, res: Response) => {
     try {
     const products = await prisma.product.findMany();
-    res.json(products); // Retorna os produtos do banco
+    res.json(products);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao buscar produtos' });
   }
 });
 
+app.get('/products/:id', async (req: Request, res: Response): Promise<any> => {
+  try {
+    const productId = Number(req.params.id);
+    
+    if (isNaN(productId)) {
+      return res.status(400).json({ error: 'O ID fornecido não é um número válido' });
+    }
+    
+    const product = await prisma.product.findUnique({
+      where: { id: productId } 
+    });
 
-// app.get('/api/products' , (req: Request, res: Response) => {
-//     console.log('Requisição para /api/products recebida.');
-//     res.json(mockProducts);
-// });
+    if (!product) {
+      return res.status(404).json({ error: 'Produto não encontrado' });
+    }
+    
+    res.json(product);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar o produto' });
+  }
+});
+
 
 app.listen(PORT, () => {
     console.log('servidor em http://localhost:${PORT}');

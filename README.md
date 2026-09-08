@@ -42,4 +42,4 @@ E depois reexecuta o `npx prisma migrate dev --name init`
 `npx prisma db seed`
 
 ### Exceutar o projeto 
-`npm run dev`e
+`npm run dev`
