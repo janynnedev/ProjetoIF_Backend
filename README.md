@@ -43,3 +43,14 @@ E depois reexecuta o `npx prisma migrate dev --name init`
 
 ### Exceutar o projeto 
 `npm run dev`
+
+### necessário instalar cors
+`npm install cors`
+### Config cors para typescript
+`npm install -D @types/cors`
+### install zod 
+`npm install zod`
+### Import do Zod
+o pacote `z` é responsável pela validação de caracteres do zod 
+e o `ZodError` é responsável pelas validações de erro para tratar o erro e apresentar de forma mais amigável
+o parâmetro `coerce` do Zod tenta converter uma string para número

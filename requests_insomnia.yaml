@@ -25,12 +25,12 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:3001/products
-    name: GET /products
+  - url: http://localhost:3001/api/products
+    name: GET /api/products
     meta:
       id: req_f9667023619a4a148ae6c4b7a6ca15a4
       created: 1788828175536
-      modified: 1788829178274
+      modified: 1790040405155
       isPrivate: false
       description: ""
       sortKey: -1788828175536
@@ -43,16 +43,92 @@ collection:
         send: true
         store: true
       rebuildPath: true
-  - url: http://localhost:3001/products/5
+  - url: http://localhost:3001/api/products/1
     name: GET /products/:id
     meta:
       id: req_2222e24b1c6c437181b1073bac5efdcd
       created: 1788828188694
-      modified: 1788829254955
+      modified: 1790042055088
       isPrivate: false
       description: ""
       sortKey: -1788828188694
     method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3001/api/products
+    name: POST /api/products
+    meta:
+      id: req_ae0fdcbb8126465794e761c78055c7bc
+      created: 1790040364151
+      modified: 1790042206289
+      isPrivate: false
+      description: ""
+      sortKey: -1790040364151
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"title": "Microfone sem fio",
+        	"description": "Microfone sem fio preto",
+        	"price": "45.99",
+        	"imageUrl": "/images/microfone.jpg",
+        	"isFeatured": true
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3001/api/products/1
+    name: PUT /api/products/:id
+    meta:
+      id: req_3afece277d344d218ed343f63134bfb0
+      created: 1790042029203
+      modified: 1790042231040
+      isPrivate: false
+      description: ""
+      sortKey: -1790042029203
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"price": "5500"
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: http://localhost:3001/api/products/7
+    name: New Request
+    meta:
+      id: req_a086edbfd10c470882581ffc6ddee8d3
+      created: 1790042236751
+      modified: 1790042243546
+      isPrivate: false
+      description: ""
+      sortKey: -1790042236751
+    method: DELETE
     settings:
       renderRequestBody: true
       encodeUrl: true
