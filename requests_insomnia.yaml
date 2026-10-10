@@ -1,142 +1,476 @@
 type: collection.insomnia.rest/5.0
-schema_version: "5.1"
+schema_version: '5.1'
 name: Requests_Insomnia
 meta:
   id: wrk_30e001e0290f441699f984e25bc408f1
   created: 1788741979841
   modified: 1788741979841
-  description: ""
+  description: ''
 collection:
-  - url: http://localhost:3001/
-    name: GET /
-    meta:
-      id: req_23c96ffa287e4585bd9499adf2b756ed
-      created: 1788742011759
-      modified: 1788828909393
-      isPrivate: false
-      description: ""
-      sortKey: -1788742011759
-    method: GET
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: http://localhost:3001/api/products
-    name: GET /api/products
-    meta:
-      id: req_f9667023619a4a148ae6c4b7a6ca15a4
-      created: 1788828175536
-      modified: 1790040405155
-      isPrivate: false
-      description: ""
-      sortKey: -1788828175536
-    method: GET
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: http://localhost:3001/api/products/1
-    name: GET /products/:id
-    meta:
-      id: req_2222e24b1c6c437181b1073bac5efdcd
-      created: 1788828188694
-      modified: 1790042055088
-      isPrivate: false
-      description: ""
-      sortKey: -1788828188694
-    method: GET
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: http://localhost:3001/api/products
-    name: POST /api/products
-    meta:
-      id: req_ae0fdcbb8126465794e761c78055c7bc
-      created: 1790040364151
-      modified: 1790042206289
-      isPrivate: false
-      description: ""
-      sortKey: -1790040364151
-    method: POST
-    body:
-      mimeType: application/json
-      text: |-
-        {
-        	"title": "Microfone sem fio",
-        	"description": "Microfone sem fio preto",
-        	"price": "45.99",
-        	"imageUrl": "/images/microfone.jpg",
-        	"isFeatured": true
-        }
-    headers:
-      - name: Content-Type
-        value: application/json
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: http://localhost:3001/api/products/1
-    name: PUT /api/products/:id
-    meta:
-      id: req_3afece277d344d218ed343f63134bfb0
-      created: 1790042029203
-      modified: 1790042231040
-      isPrivate: false
-      description: ""
-      sortKey: -1790042029203
-    method: PUT
-    body:
-      mimeType: application/json
-      text: |-
-        {
-        	"price": "5500"
-        }
-    headers:
-      - name: Content-Type
-        value: application/json
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
-  - url: http://localhost:3001/api/products/7
-    name: New Request
-    meta:
-      id: req_a086edbfd10c470882581ffc6ddee8d3
-      created: 1790042236751
-      modified: 1790042243546
-      isPrivate: false
-      description: ""
-      sortKey: -1790042236751
-    method: DELETE
-    settings:
-      renderRequestBody: true
-      encodeUrl: true
-      followRedirects: global
-      cookies:
-        send: true
-        store: true
-      rebuildPath: true
+- url: http://localhost:3001/
+  name: GET /
+  meta:
+    id: req_23c96ffa287e4585bd9499adf2b756ed
+    created: 1788742011759
+    modified: 1788828909393
+    isPrivate: false
+    description: ''
+    sortKey: -1788742011759
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: http://localhost:3001/api/products
+  name: GET /api/products
+  meta:
+    id: req_f9667023619a4a148ae6c4b7a6ca15a4
+    created: 1788828175536
+    modified: 1790040405155
+    isPrivate: false
+    description: ''
+    sortKey: -1788828175536
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: http://localhost:3001/api/products/1
+  name: GET /products/:id
+  meta:
+    id: req_2222e24b1c6c437181b1073bac5efdcd
+    created: 1788828188694
+    modified: 1790042055088
+    isPrivate: false
+    description: ''
+    sortKey: -1788828188694
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: http://localhost:3001/api/products
+  name: POST /api/products
+  meta:
+    id: req_ae0fdcbb8126465794e761c78055c7bc
+    created: 1790040364151
+    modified: 1790042206289
+    isPrivate: false
+    description: ''
+    sortKey: -1790040364151
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n\t\"title\": \"Microfone sem fio\",\n\t\"description\": \"Microfone sem fio preto\",\n\t\"price\"\
+      : \"45.99\",\n\t\"imageUrl\": \"/images/microfone.jpg\",\n\t\"isFeatured\": true\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: http://localhost:3001/api/products/1
+  name: PUT /api/products/:id
+  meta:
+    id: req_3afece277d344d218ed343f63134bfb0
+    created: 1790042029203
+    modified: 1790042231040
+    isPrivate: false
+    description: ''
+    sortKey: -1790042029203
+  method: PUT
+  body:
+    mimeType: application/json
+    text: "{\n\t\"price\": \"5500\"\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: http://localhost:3001/api/products/7
+  name: New Request
+  meta:
+    id: req_a086edbfd10c470882581ffc6ddee8d3
+    created: 1790042236751
+    modified: 1790042243546
+    isPrivate: false
+    description: ''
+    sortKey: -1790042236751
+  method: DELETE
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/register'
+  name: AUTH / Register válido
+  meta:
+    id: req_9eebd6f6df874a788aff956ec763208b
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"name\": \"Usuário Teste\",\n  \"email\": \"usuario.teste@example.com\",\n  \"password\": \"senha123\"\
+      \n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/register'
+  name: AUTH / Register inválido
+  meta:
+    id: req_36c6ee075eec47d084909fc1ae93ee63
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"email\": \"invalido\",\n  \"password\": \"123\"\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/register'
+  name: AUTH / Register duplicado
+  meta:
+    id: req_3dc5bb0707124d0f83352017133a2145
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"name\": \"Usuário Teste\",\n  \"email\": \"usuario.teste@example.com\",\n  \"password\": \"senha123\"\
+      \n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/login'
+  name: AUTH / Login válido
+  meta:
+    id: req_c0de3543ee9747ceae0513954f5448f1
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"email\": \"usuario.teste@example.com\",\n  \"password\": \"senha123\"\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/login'
+  name: AUTH / Login inválido
+  meta:
+    id: req_2a4fef4ab48c453b8b5a3255a31e17f1
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"email\": \"usuario.teste@example.com\",\n  \"password\": \"incorreta\"\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/me'
+  name: AUTH / Me sem token
+  meta:
+    id: req_1d79dabdbe2043ab8a9826badae3d247
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/me'
+  name: AUTH / Me token inválido
+  meta:
+    id: req_a9cc5114e3564e2abe79a9a1888bb74c
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: GET
+  headers:
+  - name: Authorization
+    value: Bearer invalido
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/auth/me'
+  name: AUTH / Me com token
+  meta:
+    id: req_b4141951aac14afe8e18b3c6d2249024
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: GET
+  headers:
+  - name: Authorization
+    value: Bearer {{ _.token }}
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products'
+  name: PRODUCTS / GET público
+  meta:
+    id: req_249906adcac0470f925e9ee3350f88e2
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products/1'
+  name: PRODUCTS / GET por ID público
+  meta:
+    id: req_c87febff64774ec381c8f2afacd0f582
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: GET
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products'
+  name: PRODUCTS / POST sem token
+  meta:
+    id: req_9e0d4df635af44809e940c248decb46b
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"title\": \"Produto Insomnia\",\n  \"description\": \"Descrição do produto de demonstração\",\n\
+      \  \"price\": 49.9,\n  \"imageUrl\": \"/images/demo.png\",\n  \"isFeatured\": false\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products'
+  name: PRODUCTS / POST com token
+  meta:
+    id: req_3961bba8a323415aba23c5b77a643e1f
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: POST
+  body:
+    mimeType: application/json
+    text: "{\n  \"title\": \"Produto Insomnia\",\n  \"description\": \"Descrição do produto de demonstração\",\n\
+      \  \"price\": 49.9,\n  \"imageUrl\": \"/images/demo.png\",\n  \"isFeatured\": false\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  - name: Authorization
+    value: Bearer {{ _.token }}
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products/1'
+  name: PRODUCTS / PUT sem token
+  meta:
+    id: req_f7d6e9c33e0f45cdaef1c73cba66432c
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: PUT
+  body:
+    mimeType: application/json
+    text: "{\n  \"price\": 39.9\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products/1'
+  name: PRODUCTS / PUT com token
+  meta:
+    id: req_cefb451963234fd1b969547904087802
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: PUT
+  body:
+    mimeType: application/json
+    text: "{\n  \"price\": 39.9\n}"
+  headers:
+  - name: Content-Type
+    value: application/json
+  - name: Authorization
+    value: Bearer {{ _.token }}
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products/1'
+  name: PRODUCTS / DELETE sem token
+  meta:
+    id: req_485470d73a55488da611579bdb810af9
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: DELETE
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
+- url: '{{ _.base_url }}/api/products/1'
+  name: PRODUCTS / DELETE com token
+  meta:
+    id: req_6bd75c124d714a938380c6c91d20bace
+    created: 1791594560161
+    modified: 1791594560161
+    isPrivate: false
+    description: ''
+  method: DELETE
+  headers:
+  - name: Authorization
+    value: Bearer {{ _.token }}
+  settings:
+    renderRequestBody: true
+    encodeUrl: true
+    followRedirects: global
+    cookies:
+      send: true
+      store: true
+    rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
@@ -150,3 +484,6 @@ environments:
     created: 1788741979860
     modified: 1788741979860
     isPrivate: false
+  data:
+    base_url: http://localhost:3001
+    token: COLE_O_JWT_DO_LOGIN_AQUI

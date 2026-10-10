@@ -1,27 +1,116 @@
 import 'dotenv/config';
-import express, {type Request, type Response } from 'express';
+import express, {type Request, type Response, type NextFunction } from 'express';
 import { PrismaClient, Prisma } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
-import cors from 'cors';
 import { z, ZodError } from 'zod'
-import { title } from 'node:process';
-import path from 'node:path';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 
 
 // Inicializa a conexão com o banco
-const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL! });
+if (!process.env.DATABASE_URL) throw new Error('DATABASE_URL não configurada.');
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET || JWT_SECRET.length < 32) throw new Error('JWT_SECRET deve ter pelo menos 32 caracteres.');
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 const app = express();
 app.use(express.json()); // Permite que a API entenda JSON
 
-// cors básico para dev (front em Vite)
-app.use(cors({ origin: 'http://localhost:5173'}))
-
 app.get('/', (_req: Request, res: Response) => {
   res.json({ ok: true, msg: 'API de produtos no ar!' });
+});
+
+//Aula 4 - Autenticação JWT: validação, hash e token com validade de sete dias.
+const emailSchema = z.string().trim().toLowerCase().pipe(z.email('E-mail inválido'));
+const registerSchema = z.object({
+  email: emailSchema,
+  password: z.string().min(6, 'A senha deve ter pelo menos 6 caracteres'),
+  name: z.string().trim().min(2, 'O nome deve ter pelo menos 2 caracteres').optional(),
+});
+const loginSchema = z.object({
+  email: emailSchema,
+  password: z.string().min(1, 'A senha é obrigatória'),
+});
+const publicUser = { id: true, email: true, name: true, createdAt: true } as const;
+type PublicUser = { id: number; email: string; name: string | null; createdAt: Date };
+type AuthRequest = Request & { user?: PublicUser };
+
+function validationError(error: ZodError) {
+  return {
+    error: 'Dados inválidos',
+    issues: error.issues.map(issue => ({ path: issue.path.join('.'), message: issue.message })),
+  };
+}
+
+function signToken(userId: number): string {
+  return jwt.sign({ userId }, JWT_SECRET!, { algorithm: 'HS256', expiresIn: '7d' });
+}
+
+async function authMiddleware(req: AuthRequest, res: Response, next: NextFunction): Promise<void> {
+  const match = /^Bearer ([^\s]+)$/.exec(req.headers.authorization ?? '');
+  if (!match) { res.status(401).json({ error: 'Token ausente ou inválido' }); return; }
+  let userId: number;
+  try {
+    const payload = jwt.verify(match[1]!, JWT_SECRET!, { algorithms: ['HS256'] });
+    if (typeof payload === 'string' || !Number.isSafeInteger(payload.userId) || payload.userId <= 0) {
+      res.status(401).json({ error: 'Token ausente ou inválido' }); return;
+    }
+    userId = payload.userId;
+  } catch {
+    res.status(401).json({ error: 'Token ausente ou inválido' }); return;
+  }
+  try {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: publicUser });
+    if (!user) { res.status(401).json({ error: 'Token ausente ou inválido' }); return; }
+    req.user = user;
+    next();
+  } catch {
+    res.status(500).json({ error: 'Erro interno de autenticação' });
+  }
+}
+
+app.post('/api/auth/register', async (req: Request, res: Response) => {
+  const parsed = registerSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(validationError(parsed.error));
+  const { email, password, name } = parsed.data;
+  try {
+    if (await prisma.user.findUnique({ where: { email }, select: { id: true } })) {
+      return res.status(409).json({ error: 'E-mail já cadastrado' });
+    }
+    const hash = await bcrypt.hash(password, 10);
+    const user = await prisma.user.create({
+      data: { email, password: hash, name: name ?? null },
+      select: publicUser,
+    });
+    return res.status(201).json({ message: 'Usuário cadastrado com sucesso', token: signToken(user.id), user });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
+      return res.status(409).json({ error: 'E-mail já cadastrado' });
+    }
+    return res.status(500).json({ error: 'Erro interno ao registrar usuário' });
+  }
+});
+
+app.post('/api/auth/login', async (req: Request, res: Response) => {
+  const parsed = loginSchema.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json(validationError(parsed.error));
+  try {
+    const user = await prisma.user.findUnique({ where: { email: parsed.data.email } });
+    if (!user || !await bcrypt.compare(parsed.data.password, user.password)) {
+      return res.status(401).json({ error: 'Credenciais inválidas' });
+    }
+    const { id, email, name, createdAt } = user;
+    return res.status(200).json({ message: 'Login realizado com sucesso', token: signToken(id), user: { id, email, name, createdAt } });
+  } catch {
+    return res.status(500).json({ error: 'Erro interno ao autenticar usuário' });
+  }
+});
+
+app.get('/api/auth/me', authMiddleware, (req: AuthRequest, res: Response) => {
+  return res.status(200).json({ user: req.user });
 });
 
 app.get('/api/products' , async (_req: Request, res: Response) => {
@@ -68,7 +157,7 @@ export const createProductSchema = z.object({
 /**
  *  POST /api/products/
  */
-app.post('/api/products' , async (req: Request, res: Response) => {
+app.post('/api/products' , authMiddleware, async (req: Request, res: Response) => {
   try {
     const data = createProductSchema.parse(req.body)    
     const newProduct = await prisma.product.create({data});
@@ -93,14 +182,21 @@ const updateProductSchema = createProductSchema.partial()
 /**
  * PUT /api/products/:id - atualização parcial com validação
  */
-app.put('/api/products/:id' , async (req: Request, res: Response) => {
+app.put('/api/products/:id' , authMiddleware, async (req: Request, res: Response) => {
   const id = Number(req.params.id)
   if (!Number.isInteger(id) || id <= 0) {
     return res.status(400).json({ error: 'ID inválido. Use um inteiro positivo.' });
   }
 
   try {
-    const data = updateProductSchema.parse(req.body)    
+    const parsed = updateProductSchema.parse(req.body)
+    const data = {
+      ...(parsed.title !== undefined && { title: parsed.title }),
+      ...(parsed.description !== undefined && { description: parsed.description }),
+      ...(parsed.price !== undefined && { price: parsed.price }),
+      ...(parsed.imageUrl !== undefined && { imageUrl: parsed.imageUrl }),
+      ...(parsed.isFeatured !== undefined && { isFeatured: parsed.isFeatured }),
+    }
     const updated = await prisma.product.update({ where: { id }, data })
     return res.status(200).json(updated)
   } catch (error) {
@@ -124,7 +220,7 @@ app.put('/api/products/:id' , async (req: Request, res: Response) => {
 /**
  * DELETE /api/products/:id - remove produto
  */
-app.delete('/api/products/:id' , async (req: Request, res: Response) => {
+app.delete('/api/products/:id' , authMiddleware, async (req: Request, res: Response) => {
   const id = Number(req.params.id)
   if (!Number.isInteger(id) || id <= 0) {
     return res.status(400).json({ error: 'ID inválido. Use um inteiro positivo.' });
@@ -142,9 +238,10 @@ app.delete('/api/products/:id' , async (req: Request, res: Response) => {
   }
 });
 
-const PORT = 3001;
+const PORT = Number(process.env.PORT ?? 3001);
+if (!Number.isInteger(PORT) || PORT <= 0 || PORT > 65535) throw new Error('PORT inválida.');
 app.listen(PORT, () => {
-    console.log('servidor em http://localhost:${PORT}');
+    console.log(`servidor em http://localhost:${PORT}`);
 });
 
 
